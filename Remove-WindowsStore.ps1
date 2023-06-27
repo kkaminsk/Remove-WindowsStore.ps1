@@ -1,19 +1,16 @@
-# Powershell script to modify registry
+# Define the registry path
+$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
 
-# The registry path
-$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
-
-# The name of the property to modify
-$PropertyName = "NoPinningStoreToTaskbar"
-
-# The new value for the property
-$PropertyValue = 1
-
-# Check if the path exists
-if (!(Test-Path $RegPath)) {
-    # If the path does not exist, create it
-    New-Item -Path $RegPath -Force | Out-Null
+# Check if the registry path exists, create it if it does not
+if (!(Test-Path $registryPath)) {
+    New-Item -Path $registryPath -Force | Out-Null
 }
 
-# Set the property value
-Set-ItemProperty -Path $RegPath -Name $PropertyName -Value $PropertyValue
+# Define the name of the DWORD and its value
+$dwordName = "NoPinningStoreToTaskbar"
+$dwordValue = 1
+
+# Check if the DWORD exists, create/modify it if it does not/is incorrect
+if ((Get-ItemProperty -Path $registryPath -Name $dwordName -ErrorAction SilentlyContinue).$dwordName -ne $dwordValue) {
+    New-ItemProperty -Path $registryPath -Name $dwordName -Value $dwordValue -PropertyType DWORD -Force | Out-Null
+}
