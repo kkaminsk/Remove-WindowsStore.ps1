@@ -1,5 +1,5 @@
 # Remove-WindowsStore
-This script is written in PowerShell and is designed to run as part of the device deployment process in Microsoft Intune. Its purpose is to remove the Microsoft Store icon from the taskbar on Windows 11 machines during deployment.
+This script is written in PowerShell and is designed to run as part of the device deployment process in Microsoft. Its purpose is to remove the Microsoft Store icon from the taskbar on Windows 11 machines during deployment without any configuration via Group Policy.
 
 The script first defines a registry path related to Windows Explorer policies. If this registry path does not already exist, the script creates it.
 
